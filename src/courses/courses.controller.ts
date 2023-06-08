@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, Patch, Post, Res } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post, Res } from '@nestjs/common';
 import { CoursesService } from './courses.service';
 import { CreateCourseDto } from './dto/create-course.dto';
 import { UpdateCourseDto } from './dto/update-course.dto';
@@ -20,8 +20,8 @@ export class CoursesController {
    * Exemplo de como ficara a rota: http://localhost:3000/courses/list
    */
   @Get('list')
-    findAll(@Res() response) {
-        const courses = this.coursesService.findAll();
+    async findAll(@Res() response) {
+        const courses = await this.coursesService.findAll();
         response.status(200).send(courses);
     }
   /**
@@ -29,39 +29,32 @@ export class CoursesController {
    * A rota ficara: http://localhost:3000/courses/:id
    */
   @Get(':id') // Podemos receber um ou mais parametros.
-  findOne(@Param() params, @Res() response) {
-      const course = this.coursesService.findOne(params.id);
+  async findOne(@Param() params, @Res() response) {
+      const course = await this.coursesService.findOne(params.id);
       response.status(200).send(course);
   }
 
   @Get(':idCourse')
   // Podemos usar desestruturacao para pegar parametros pelo nome em especifico.
-  findCourseById(@Param('idCourse') idCourse: string, @Res() response) {
-      const course = this.coursesService.findOne(idCourse);
+  async findCourseById(@Param('idCourse') idCourse: string, @Res() response) {
+      const course = await this.coursesService.findOne(idCourse);
       response.status(200).send(course);
   }
 
   @Post()
-  create(@Body() createCourseDto: CreateCourseDto, @Res() response) {
-      const course = this.coursesService.create(createCourseDto);
+  async create(@Body() createCourseDto: CreateCourseDto, @Res() response) {
+      const course = await this.coursesService.create(createCourseDto);
       response.status(201).send(course);
   }
 
-  @Post('name')
-  @HttpCode(HttpStatus.CREATED) // Para definir o status http que sera retornado.
-  // Podemos usar desestruturacao para pegar infos do body pelo nome em especifico.
-  createName(@Body('name') body) {
-      return body;
-  }
-
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateCourseDto: UpdateCourseDto) {
-      return this.coursesService.update(id, updateCourseDto);
+  async update(@Param('id') id: string, @Body() updateCourseDto: UpdateCourseDto) {
+      return await this.coursesService.update(id, updateCourseDto);
   }
     
   @Delete(':id') // Podemos receber um ou mais parametros.
-  remove(@Param('id') id: string) {
-      return this.coursesService.remove(id);
+  async remove(@Param('id') id: string) {
+      return await this.coursesService.remove(id);
   }
 
 }
