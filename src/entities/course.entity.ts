@@ -1,20 +1,24 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+/* eslint-disable indent */
+import { Column, Entity, JoinTable, ManyToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Tag } from './tag.entity';
 
 @Entity('courses')
 export class Course {
     @PrimaryGeneratedColumn()
-    // eslint-disable-next-line indent
     id: number;
     
     @Column()
-    // eslint-disable-next-line indent
     name: string;
     
     @Column()
-    // eslint-disable-next-line indent
     description: string;
     
-    @Column('json', { nullable: true })
-    // eslint-disable-next-line indent
-    tags: string[];
+    /**
+     * O @JoinTable() deve estar do lado principal da relacao.
+     */
+    @JoinTable()
+    @ManyToMany(() => Tag, (tag: Tag) => tag.courses, {
+        cascade: true
+    })
+    tags: Tag[];
 }

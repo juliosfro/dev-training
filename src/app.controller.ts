@@ -6,16 +6,16 @@ import { AppService } from './app.service';
  */
 @Controller()
 export class AppController {
-  /**
+    /**
    * O appService eh recebido no construtor atraves de injecao de dependencia.
    */
-  constructor(private readonly appService: AppService) {}
+    constructor(private readonly appService: AppService) {}
 
   /**
    * O metodo http a ser utilizado eh definido por meio de decorator.
    */
   @Get()
-  getHello(): string {
-    return this.appService.getHello();
-  }
+    getHello(): string {
+        return this.appService.getHello();
+    }
 }

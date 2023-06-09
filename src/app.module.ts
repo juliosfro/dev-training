@@ -17,6 +17,9 @@ import { CoursesModule } from './courses/courses.module';
         password: 'postgres',
         database: 'postgres',
         autoLoadEntities: true,
+        /**
+         * Nao eh recomendado usar em producao.
+         */
         synchronize: true
     })],
     controllers: [AppController],
