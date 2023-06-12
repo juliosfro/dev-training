@@ -1,41 +1,38 @@
-version: '3.5'
+version: "3"
 
 services:
-  postgres:
-    container_name: postgres_container
-    image: postgres
-    environment:
-      POSTGRES_USER: ${POSTGRES_USER:-postgres}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
-      PGDATA: /data/postgres
+  app:
+    build: .
+    entrypoint: .docker/entrypoint.sh
+    container_name: app
+    ports:
+      - "3001:3000"
     volumes:
-      - postgres:/data/postgres
+      - .:/home/node/app
+    depends_on:
+      - postgres
+
+  postgres:
+    build: .docker/postgres
+    container_name: postgres
+    restart: always
+    tty: true
     ports:
       - "5432:5432"
-    networks:
-      - postgres
-    restart: unless-stopped
-
-  pgadmin:
-    container_name: pgadmin_container
-    image: dpage/pgadmin4
-    environment:
-      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL:-pgadmin4@pgadmin.org}
-      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:-admin}
-      PGADMIN_CONFIG_SERVER_MODE: 'False'
     volumes:
-      - pgadmin:/var/lib/pgadmin
+      - .docker/dbdata:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=postgres
 
-    ports:
-      - "${PGADMIN_PORT:-5050}:80"
-    networks:
-      - postgres
-    restart: unless-stopped
-
-networks:
-  postgres:
-    driver: bridge
-
-volumes:
-  postgres:
   pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin
+    tty: true
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=admin@admin.com
+      - PGADMIN_DEFAULT_PASSWORD=admin
+    ports:
+      - "8000:80"
+    depends_on:
+      - postgres

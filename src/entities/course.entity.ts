@@ -1,11 +1,12 @@
 /* eslint-disable indent */
-import { Column, Entity, JoinTable, ManyToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { BeforeInsert, Column, CreateDateColumn, Entity, JoinTable, ManyToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { v4 as uuidv4 } from 'uuid';
 import { Tag } from './tag.entity';
 
 @Entity('courses')
 export class Course {
-    @PrimaryGeneratedColumn()
-    id: number;
+    @PrimaryGeneratedColumn('uuid')
+    id: string;
     
     @Column()
     name: string;
@@ -16,9 +17,21 @@ export class Course {
     /**
      * O @JoinTable() deve estar do lado principal da relacao.
      */
-    @JoinTable()
+    @JoinTable({ name: 'courses_tags' })
     @ManyToMany(() => Tag, (tag: Tag) => tag.courses, {
         cascade: true
     })
     tags: Tag[];
+
+    @CreateDateColumn({ type: 'timestamp' })
+    created_at: Date;
+
+    @BeforeInsert()
+    generetedId() {
+        if (this.id) {
+            return;
+        }
+
+        this.id = uuidv4();
+    }
 }

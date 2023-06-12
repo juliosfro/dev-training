@@ -16,11 +16,17 @@ import { CoursesModule } from './courses/courses.module';
         username: 'postgres',
         password: 'postgres',
         database: 'postgres',
-        autoLoadEntities: true,
+        entities: [
+            __dirname + '/**/*.entity.js'
+        ],
+        /**
+         * Serve para buscar as informacoes referentes as entidades.
+         */
+        autoLoadEntities: false,
         /**
          * Nao eh recomendado usar em producao.
          */
-        synchronize: true
+        synchronize: false
     })],
     controllers: [AppController],
     /**

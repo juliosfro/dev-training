@@ -62,7 +62,7 @@ export class CoursesService {
         );
         
         const course = await this.courseRepository.preload({
-            id: Number(id),
+            id: id,
             ...updateCourseDto,
             tags
         });
@@ -90,8 +90,6 @@ export class CoursesService {
         if (tag) {
             return tag;
         }
-
-        console.log(`Nomes das tags => ${name}`);
 
         return await this.tagRepository.create({ name });
     }
