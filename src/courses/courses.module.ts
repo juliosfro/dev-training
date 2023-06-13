@@ -1,9 +1,9 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Course } from 'src/entities/course.entity';
-import { Tag } from 'src/entities/tag.entity';
 import { CoursesController } from './courses.controller';
 import { CoursesService } from './courses.service';
+import { Course } from './entities/course.entity';
+import { Tag } from './entities/tag.entity';
 
 /**
  * O decorator serve para definir uma classe como um modulo.

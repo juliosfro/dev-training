@@ -9,6 +9,10 @@
     "target": "es2017",
     "sourceMap": true,
     "outDir": "./dist",
+    "rootDirs": [
+      "./src",
+      "./database"
+    ],
     "baseUrl": "./",
     "incremental": true,
     "skipLibCheck": true,
