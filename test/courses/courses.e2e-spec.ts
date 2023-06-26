@@ -1,9 +1,8 @@
 import { INestApplication } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
-import * as request from 'supertest';
-import { AppModule } from './../src/app.module';
+import { CoursesModule } from '../../src/courses/courses.module';
 
-describe('AppController (e2e)', () => {
+describe('Courses: /courses', () => {
     let app: INestApplication;
 
     /**
@@ -11,7 +10,7 @@ describe('AppController (e2e)', () => {
      */
     beforeAll(async () => {
         const moduleFixture: TestingModule = await Test.createTestingModule({
-            imports: [AppModule],
+            imports: [CoursesModule],
         }).compile();
 
         /**
@@ -21,7 +20,7 @@ describe('AppController (e2e)', () => {
         app = moduleFixture.createNestApplication();
         await app.init();
     });
-  
+
     /**
      * Significa que fara uma unica vez depois de tudo.
      */
@@ -32,14 +31,11 @@ describe('AppController (e2e)', () => {
         await app.close();
     });
 
-    it('/ (GET)', () => {
+    it.todo('Create POST /courses', () => {
         /**
          * Estamos simulando uma requisicao http com auxilio da biblioteca supertest.
          * O supertest serve para testar solicitacoes http.
          */
-        return request(app.getHttpServer())
-            .get('/')
-            .expect(200)
-            .expect('Hello World!');
+
     });
 });

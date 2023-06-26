@@ -34,7 +34,7 @@ export class CoursesService {
          * O NestJs possui ferramentas nativas para tratamento de erros.
          */
         if (!course) {
-            throw new NotFoundException(`Course id ${id} not found`);
+            throw new NotFoundException(`Course ID ${id} not found`);
         }
 
         return course;
@@ -78,7 +78,7 @@ export class CoursesService {
         const course = await this.courseRepository.findOne(id);
 
         if (!course) {
-            throw new NotFoundException(`Course id ${id} not found`);
+            throw new NotFoundException(`Course ID ${id} not found`);
         }
 
         return this.courseRepository.remove(course);
